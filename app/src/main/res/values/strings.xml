@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">ProviderApp</string>
     <string name="continue_button">ادامه</string>
+    <string name="please_be_patient">لطفا منتظر باشید</string>
+    <string name="introducer_code">کد معرف</string>
+    <string name="enter_phone">لطفا شماره موبایل خود را وارد نمایید</string>
+    <string name="phone_number_length_error">شماره موبایل ۱۱ رقم است</string>
+        <string name="enter_verification_code">کد پیامک شده را وارد کنید</string>
 </resources>

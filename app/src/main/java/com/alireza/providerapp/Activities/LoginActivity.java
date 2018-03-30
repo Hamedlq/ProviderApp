@@ -1,6 +1,9 @@
 package com.alireza.providerapp.Activities;
 
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -24,12 +27,33 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class LoginActivity extends AppCompatActivity {
+    ProgressDialog progressDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.please_be_patient));
+        progressDialog.setCancelable(false);
+
+
+        try {
+            SharedPreferences prefs =
+                    getSharedPreferences(Constants.GlobalConstants.MY_SHARED_PREFERENCES, MODE_PRIVATE);
+            String token = prefs.getString(Constants.GlobalConstants.TOKEN, "null");
+
+            if (!token.equals("null")) {
+                finish();
+                goToMainActivity();
+            }
+        } catch (Exception e) {
+            SharedPreferences.Editor prefs =
+                    getSharedPreferences(Constants.GlobalConstants.MY_SHARED_PREFERENCES, MODE_PRIVATE).edit();
+
+        }
 
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -40,8 +64,14 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void goToMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 
     public void sendUserPhoneNumberToServer(final String phoneNumber, int referCode) {
+        progressDialog.show();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -57,13 +87,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
                 int code = response.code();
+
                 if (code == 200) {
                     LoginResponseModel i = response.body();
                     Toast.makeText(LoginActivity.this, "successful", Toast.LENGTH_LONG).show();
                     sendConfirmCode(phoneNumber);
                 }
-                if (code == 500){
+                if (code == 500) {
                     Toast.makeText(LoginActivity.this, "duplicate number", Toast.LENGTH_LONG).show();
+                    progressDialog.hide();
                 }
 
             }
@@ -71,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponseModel> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "failure message", Toast.LENGTH_SHORT).show();
+                progressDialog.hide();
 
             }
         });
@@ -107,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
                 int code = response.code();
+                progressDialog.hide();
                 if (code == 200) {
                     Toast.makeText(LoginActivity.this, "successful", Toast.LENGTH_LONG).show();
                     addCodeVerifyFragment(phoneNumber);
@@ -116,11 +150,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponseModel> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_LONG).show();
+                progressDialog.hide();
+
             }
         });
     }
 
     public void sendConfirmSmsCode(String phoneNumber, int verificationCode) {
+        progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(Constants.HTTP.BASE_URL)
@@ -137,20 +174,31 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ReceiveTokenModel> call, Response<ReceiveTokenModel> response) {
                 Toast.makeText(LoginActivity.this, "successful", Toast.LENGTH_LONG).show();
+                progressDialog.hide();
                 int code = response.code();
-                if (code == 200){
+
+                if (code == 200) {
+                    Toast.makeText(LoginActivity.this, "success", Toast.LENGTH_LONG).show();
                     ReceiveTokenModel model = response.body();
                     String token = model.getToken();
+
+                    SharedPreferences.Editor prefs =
+                            getSharedPreferences(Constants.GlobalConstants.MY_SHARED_PREFERENCES, MODE_PRIVATE).edit();
+                    prefs.putString(Constants.GlobalConstants.TOKEN, token);
+                    prefs.apply();
+                    goToMainActivity();
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(Call<ReceiveTokenModel> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_LONG).show();
+                progressDialog.hide();
+
 
             }
         });
-
 
 
     }

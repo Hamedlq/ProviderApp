@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.alireza.providerapp.Activities.LoginActivity;
 import com.alireza.providerapp.R;
@@ -17,6 +18,10 @@ import com.alireza.providerapp.R;
  */
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
+
+    private long phoneNumber;
+    private String phoneNumberString;
+    private int referCode;
 
     EditText userPhoneNumberEdittext;
     EditText referCodeEdittext;
@@ -42,17 +47,34 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.continue_button:
-                long phoneNumber = Long.parseLong(userPhoneNumberEdittext.getText().toString());
-                String phoneNumberString = userPhoneNumberEdittext.getText().toString();
-                int referCode = Integer.parseInt(referCodeEdittext.getText().toString());
+
+                try {
+
+                    phoneNumberString = userPhoneNumberEdittext.getText().toString();
+                    referCode = Integer.parseInt(referCodeEdittext.getText().toString());
+
+                } catch (Exception e) {
+
+                }
 
 
-                ((LoginActivity) getActivity())
-                        .sendUserPhoneNumberToServer(phoneNumberString,referCode);
+                if (phoneNumberString.equals("")) {
+                    Toast.makeText(getActivity(), R.string.enter_phone, Toast.LENGTH_LONG).show();
+
+                } else {
+                    if (phoneNumberString.length() == 11)
+                    ((LoginActivity) getActivity())
+                            .sendUserPhoneNumberToServer(phoneNumberString, referCode);
+                    else {
+                        Toast.makeText(getActivity(), R.string.phone_number_length_error, Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
+//                if (phoneNumber!= null)
+
 
                 break;
-
-
 
 
         }
