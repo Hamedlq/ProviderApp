@@ -13,7 +13,7 @@ public class UserModel {
     String mobile;
     Date createTime;
     int smscount;
-    String name;
+    public String name;
     String family;
     String address;
     String propertytype;

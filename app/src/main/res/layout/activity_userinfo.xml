@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_weight="50"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/text">
+
+                <AutoCompleteTextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="1"
+                    android:hint="@string/name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:nextFocusDown="@+id/family"
+                    android:textColor="@color/text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_weight="50"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/text">
+
+                <AutoCompleteTextView
+                    android:id="@+id/family"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="1"
+                    android:hint="@string/family"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:nextFocusDown="@+id/name"
+                    android:nextFocusUp="@+id/address"
+                    android:textColor="@color/text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_weight="50"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/text">
+
+                <AutoCompleteTextView
+                    android:id="@+id/shopname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="1"
+                    android:hint="@string/shopname"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:nextFocusDown="@+id/address"
+                    android:nextFocusUp="@+id/family"
+                    android:textColor="@color/text" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_weight="50"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/text">
+
+                <AutoCompleteTextView
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="1"
+                    android:hint="@string/address"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:nextFocusDown="@+id/shopphone"
+                    android:nextFocusUp="@+id/shopname"
+                    android:textColor="@color/text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_weight="50"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/text">
+
+                <AutoCompleteTextView
+                    android:id="@+id/shopphone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="1"
+                    android:hint="@string/shopphone"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:nextFocusDown="@+id/continue_button"
+                    android:nextFocusUp="@+id/address"
+                    android:textColor="@color/text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/propertytype-title"
+                android:layout_width="match_parent"
+                android:text="@string/propertytype"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/propertytype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:layout_weight="50" />
+
+
+            <Button
+                android:id="@+id/continue_button"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/continue_button" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -9,4 +9,13 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="providers_list">لیست تامین کننده ها</string>
+    <string name="name">نام</string>
+    <string name="family">نام‌خانوادگی</string>
+    <string name="shopname">نام مغازه</string>
+    <string name="address">آدرس</string>
+    <string name="shopphone">تلفن ثابت مغازه</string>
+    <string name="propertytype">نوع مالکیت مغازه</string>
+    <string name="success">اطلاعات با موفقیت ثبت شد</string>
+    <string name="failed">مشکلی در ثبت پیش آمده. دوباره تلاش کنید</string>
+    <string name="please_wait">لطفا شکیبا باشید...</string>
 </resources>

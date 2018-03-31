@@ -69,6 +69,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void goToUserInfoForm() {
+        Intent intent = new Intent(this, UserInfoFormActivity.class);
+        startActivity(intent);
+    }
+
 
     public void sendUserPhoneNumberToServer(final String phoneNumber, int referCode) {
         progressDialog.show();
@@ -178,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                 int code = response.code();
 
                 if (code == 200) {
-                    Toast.makeText(LoginActivity.this, "success", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, R.string.success, Toast.LENGTH_LONG).show();
                     ReceiveTokenModel model = response.body();
                     String token = model.getToken();
 
@@ -186,7 +191,11 @@ public class LoginActivity extends AppCompatActivity {
                             getSharedPreferences(Constants.GlobalConstants.MY_SHARED_PREFERENCES, MODE_PRIVATE).edit();
                     prefs.putString(Constants.GlobalConstants.TOKEN, token);
                     prefs.apply();
-                    goToMainActivity();
+                    if (model.isUserRegistered()) {
+                        goToMainActivity();
+                    } else {
+                        goToUserInfoForm();
+                    }
                     finish();
                 }
             }

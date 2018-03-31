@@ -19,6 +19,7 @@ public final class Constants {
         public static final String PHONE_NUMBER_TAG = "PHONENUMBERTTAG";
         public static final String MY_SHARED_PREFERENCES = "MYSHAREDPREFS";
         public static final String TOKEN = "TOKEN";
+        public static final String APP_DOMAIN = "com.alireza.providerapp";
     }
 
 }

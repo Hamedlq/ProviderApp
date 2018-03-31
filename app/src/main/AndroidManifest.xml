@@ -16,6 +16,11 @@
             android:name=".Activities.MainActivity">
 
         </activity>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".Activities.UserInfoFormActivity">
+
+        </activity>
 
         <activity
 
