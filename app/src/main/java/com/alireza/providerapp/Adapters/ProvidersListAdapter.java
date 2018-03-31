@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.alireza.providerapp.Models.SupplierModel;
 import com.alireza.providerapp.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,9 +45,9 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
 
         public MyViewHolder(View view) {
             super(view);
-            testText = view.findViewById(R.id.test_text);
+            testText = view.findViewById(R.id.store_name);
             nameTexxtview = view.findViewById(R.id.name_textview);
-            familyTextview = view.findViewById(R.id.family_textview);
+//            familyTextview = view.findViewById(R.id.family_textview);
             addressTextview = view.findViewById(R.id.address_textview);
 //            title = (TextView) view.findViewById(R.id.title);
 //            genre = (TextView) view.findViewById(R.id.genre);
@@ -60,7 +59,7 @@ public class ProvidersListAdapter extends RecyclerView.Adapter<ProvidersListAdap
     public void onBindViewHolder(ProvidersListAdapter.MyViewHolder holder, int position) {
 //        testText.setText("wow this is a test with position number" + position);
         nameTexxtview.setText(supplierModels.get(position).getName());
-        familyTextview.setText(supplierModels.get(position).getFamily());
+//        familyTextview.setText(supplierModels.get(position).getFamily());
         addressTextview.setText(supplierModels.get(position).getAddress());
 
 
