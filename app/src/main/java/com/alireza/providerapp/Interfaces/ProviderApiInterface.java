@@ -1,6 +1,7 @@
 package com.alireza.providerapp.Interfaces;
 
 import com.alireza.providerapp.Models.LoginResponseModel;
+import com.alireza.providerapp.Models.ResponseModel;
 import com.alireza.providerapp.Models.SupplierModel;
 
 import java.util.List;
@@ -19,5 +20,13 @@ public interface ProviderApiInterface {
     @FormUrlEncoded
     @POST("user/getsuppliers")
     Call<List<SupplierModel>> getSuppliersList(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("item/insertItem")
+    Call<ResponseModel<String>> insertItem(@Field("token") String authtoken,
+                                           @Field("itemName") String name,
+                                           @Field("itemBrand") String brand,
+                                           @Field("itemPrice") String price,
+                                           @Field("itemDescription") String description);
 
 }

@@ -1,10 +1,8 @@
 package com.alireza.providerapp.Activities;
 
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,17 +15,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.alireza.providerapp.Fragments.CodeVerifyFragment;
-import com.alireza.providerapp.Fragments.LoginFragment;
 import com.alireza.providerapp.Helpers.Constants;
-import com.alireza.providerapp.Interfaces.LoginApiInterface;
+import com.alireza.providerapp.Interfaces.ProviderApiInterface;
 import com.alireza.providerapp.Interfaces.UserApiInterface;
-import com.alireza.providerapp.Models.LoginResponseModel;
-import com.alireza.providerapp.Models.ReceiveTokenModel;
 import com.alireza.providerapp.Models.ResponseModel;
 import com.alireza.providerapp.Models.UserModel;
 import com.alireza.providerapp.R;
-import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,22 +34,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by alireza on 3/26/18.
  */
 
-public class UserInfoFormActivity extends AppCompatActivity {
+public class ItemFormActivity extends AppCompatActivity {
 
-    @BindView(R.id.name)
-    protected AutoCompleteTextView name;
-    @BindView(R.id.family)
-    protected AutoCompleteTextView family;
-    @BindView(R.id.address)
-    protected AutoCompleteTextView address;
-    @BindView(R.id.shopname)
-    protected AutoCompleteTextView shopname;
-    @BindView(R.id.shopphone)
-    protected AutoCompleteTextView shopphone;
-    @BindView(R.id.propertytype)
-    protected Spinner propertytype;
+    @BindView(R.id.item_name)
+    protected AutoCompleteTextView item_name;
+    @BindView(R.id.item_brand)
+    protected AutoCompleteTextView item_brand;
+    @BindView(R.id.item_price)
+    protected AutoCompleteTextView item_price;
+    @BindView(R.id.item_description)
+    protected AutoCompleteTextView item_description;
     @BindView(R.id.continue_button)
     protected Button continue_button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,19 +55,11 @@ public class UserInfoFormActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        String[] arraySpinner = new String[]{
-                "استیجاری", "مالک", "سرقفلی"
-        };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, arraySpinner);
-        adapter.setDropDownViewResource(android.R.layout.simple_spin‌​ner_dropdown_item);
-        propertytype.setAdapter(adapter);
-
         continue_button.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    sendUserInfoToServer();
+                    sendItemInfoToServer();
                     return true;
                 }
                 return false;
@@ -86,49 +68,45 @@ public class UserInfoFormActivity extends AppCompatActivity {
 
     }
 
-    private void sendUserInfoToServer() {
+    private void sendItemInfoToServer() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(Constants.HTTP.BASE_URL)
                 .build();
-        UserApiInterface userInfoService =
-                retrofit.create(UserApiInterface.class);
+        ProviderApiInterface providerApi =
+                retrofit.create(ProviderApiInterface.class);
 
         SharedPreferences prefs = this.getSharedPreferences(
                 Constants.GlobalConstants.APP_DOMAIN, Context.MODE_PRIVATE);
         String authToken = prefs.getString(Constants.GlobalConstants.TOKEN, "");
 
-        final String name_st = name.getText().toString();
-        String family_st = family.getText().toString();
-        String address_st = address.getText().toString();
-        String shopname_st = shopname.getText().toString();
-        String shopphone_st = shopphone.getText().toString();
-        String propertytype_st = propertytype.getSelectedItem().toString();
+        final String item_name_st = item_name.getText().toString();
+        String item_brand_st = item_brand.getText().toString();
+        String item_price_st = item_price.getText().toString();
+        String item_description_st = item_description.getText().toString();
         showProgress();
-        Call<ResponseModel<UserModel>> call =
-                userInfoService.sendUserInfoToServer(authToken, name_st, family_st, address_st, shopname_st, shopphone_st, propertytype_st);
+        Call<ResponseModel<String>> call =
+                providerApi.insertItem(authToken, item_name_st, item_brand_st, item_price_st, item_description_st);
 
-        call.enqueue(new Callback<ResponseModel<UserModel>>() {
+        call.enqueue(new Callback<ResponseModel<String>>() {
             @Override
-            public void onResponse(Call<ResponseModel<UserModel>> call, Response<ResponseModel<UserModel>> response) {
+            public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
                 int code = response.code();
                 if (code == 200) {
-                    ResponseModel<UserModel> i = response.body();
-                    if(i.getMessage().name.contains(name_st)){
-                        Toast.makeText(UserInfoFormActivity.this, R.string.success, Toast.LENGTH_LONG).show();
+                    ResponseModel<String> i = response.body();
+                        Toast.makeText(ItemFormActivity.this, i.getMessage(), Toast.LENGTH_LONG).show();
                         goToMainActivity();
                     }else {
-                        Toast.makeText(UserInfoFormActivity.this, R.string.failed, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ItemFormActivity.this, R.string.failed, Toast.LENGTH_LONG).show();
                     }
 
-                }
                 hideProgress();
             }
 
             @Override
-            public void onFailure(Call<ResponseModel<UserModel>> call, Throwable t) {
-                Toast.makeText(UserInfoFormActivity.this, R.string.failed, Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                Toast.makeText(ItemFormActivity.this, R.string.failed, Toast.LENGTH_SHORT).show();
                 hideProgress();
             }
         });
