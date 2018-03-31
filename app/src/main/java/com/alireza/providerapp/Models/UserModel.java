@@ -22,4 +22,5 @@ public class UserModel {
     String shoplat;
     String shoplng;
     List<SupplierModel> suppliers;
+    public List<ItemModel> items;
 }

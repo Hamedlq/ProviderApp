@@ -9,6 +9,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="providers_list">لیست تامین کننده ها</string>
+    <string name="orders_list">لیست سفارش ها</string>
     <string name="name">نام</string>
     <string name="family">نام‌خانوادگی</string>
     <string name="shopname">نام مغازه</string>

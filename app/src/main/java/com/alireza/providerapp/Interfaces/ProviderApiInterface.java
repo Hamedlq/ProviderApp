@@ -1,8 +1,10 @@
 package com.alireza.providerapp.Interfaces;
 
+import com.alireza.providerapp.Models.ItemModel;
 import com.alireza.providerapp.Models.LoginResponseModel;
 import com.alireza.providerapp.Models.ResponseModel;
 import com.alireza.providerapp.Models.SupplierModel;
+import com.alireza.providerapp.Models.UserModel;
 
 import java.util.List;
 
@@ -20,6 +22,11 @@ public interface ProviderApiInterface {
     @FormUrlEncoded
     @POST("user/getsuppliers")
     Call<List<SupplierModel>> getSuppliersList(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("order/userOrders")
+    Call<List<UserModel>> getOrdersList(@Field("token") String token);
+
 
     @FormUrlEncoded
     @POST("item/insertItem")
