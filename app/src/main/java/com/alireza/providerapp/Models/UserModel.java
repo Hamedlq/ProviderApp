@@ -14,13 +14,13 @@ public class UserModel {
     Date createTime;
     int smscount;
     public String name;
-    String family;
+    public String family;
     String address;
     String propertytype;
-    String shopname;
+    public String shopname;
     String shopphone;
     String shoplat;
     String shoplng;
-    List<SupplierModel> suppliers;
+    public List<SupplierModel> suppliers;
     public List<ItemModel> items;
 }

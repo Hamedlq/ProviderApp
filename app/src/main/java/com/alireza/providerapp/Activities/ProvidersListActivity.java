@@ -1,5 +1,6 @@
 package com.alireza.providerapp.Activities;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.alireza.providerapp.Adapters.ProvidersListAdapter;
@@ -30,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by alireza on 3/30/18.
  */
 
-public class ProvidersListActivity extends AppCompatActivity {
+public class ProvidersListActivity extends NavigationActivity {
     private RecyclerView providersList;
     private List<SupplierModel> supplierModelList;
     private ProvidersListAdapter adapter;
@@ -38,26 +41,23 @@ public class ProvidersListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_providers_list);
+        //setContentView(R.layout.activity_providers_list);
 
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ViewGroup parent = (ViewGroup)findViewById(R.id.main_container);
+        inflater.inflate(R.layout.activity_providers_list, parent);
 
         providersList = findViewById(R.id.providers_list);
 
         supplierModelList = new ArrayList<>();
-
-
 
         adapter = new ProvidersListAdapter(supplierModelList);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         providersList.setLayoutManager(mLayoutManager);
 //        providersList.setItemAnimator(new DefaultItemAnimator());
-
-
         providersList.setAdapter(adapter);
-
         getSuppliersListFromServer();
-
     }
 
     private void getSuppliersListFromServer() {

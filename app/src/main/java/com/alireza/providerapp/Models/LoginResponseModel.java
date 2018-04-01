@@ -7,6 +7,7 @@ package com.alireza.providerapp.Models;
 public class LoginResponseModel {
 
     String Message;
+    private String Error;
 
     public String getMessage() {
         return Message;
@@ -14,5 +15,13 @@ public class LoginResponseModel {
 
     public void setMessage(String message) {
         Message = message;
+    }
+
+    public String getError() {
+        return Error;
+    }
+
+    public void setError(String error) {
+        Error = error;
     }
 }

@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.alireza.providerapp.Adapters.ItemsListAdapter;
@@ -16,6 +18,8 @@ import com.alireza.providerapp.Models.ItemModel;
 import com.alireza.providerapp.Models.ResponseModel;
 import com.alireza.providerapp.Models.Supplier;
 import com.alireza.providerapp.Models.SupplierItemsResponse;
+import com.alireza.providerapp.Models.SupplierModel;
+import com.alireza.providerapp.Models.UserModel;
 import com.alireza.providerapp.R;
 
 import java.util.ArrayList;
@@ -31,7 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by alireza on 3/31/18.
  */
 
-public class ItemsActivity extends AppCompatActivity {
+public class ItemsActivity extends NavigationActivity {
 
     private RecyclerView itemsListRecyclerview;
     private List<ItemModel> itemModelList;
@@ -40,7 +44,13 @@ public class ItemsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_items);
+        //setContentView(R.layout.activity_items);
+
+
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ViewGroup parent = (ViewGroup)findViewById(R.id.main_container);
+        inflater.inflate(R.layout.activity_items, parent);
+
 
         itemsListRecyclerview = findViewById(R.id.items_list);
 
@@ -71,15 +81,20 @@ public class ItemsActivity extends AppCompatActivity {
                 Constants.GlobalConstants.MY_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String authToken = prefs.getString(Constants.GlobalConstants.TOKEN, "");
 
-        Call<List<SupplierItemsResponse>> call =
+        Call<List<UserModel>> call =
                 itemsApiInterface.getItemsFromServer(authToken);
-        call.enqueue(new Callback<List<SupplierItemsResponse>>() {
+        call.enqueue(new Callback<List<UserModel>>() {
             @Override
-            public void onResponse(Call<List<SupplierItemsResponse>> call, Response<List<SupplierItemsResponse>> response) {
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
 
-                List<SupplierItemsResponse> model = response.body();
+                List<UserModel> model = response.body();
+                for (SupplierModel supplierModel : model.get(0).suppliers) {
+                    for (ItemModel item: supplierModel.items){
+                        itemModelList.add(item);
+                    }
+                }
 
-                itemModelList = model.get(0).getSuppliers().get(0).getItemModels();
+                //itemModelList = model.get(0).getSuppliers().get(0).getItemModels();
 
 //                itemModelList = i.getMessage();
 
@@ -96,7 +111,7 @@ public class ItemsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<SupplierItemsResponse>> call, Throwable t) {
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
                 Toast.makeText(ItemsActivity.this, "failure", Toast.LENGTH_LONG).show();
 
             }

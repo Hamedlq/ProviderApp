@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProviderApp</string>
+    <string name="app_name">مغازه‌دار</string>
     <string name="continue_button">ادامه</string>
     <string name="please_be_patient">لطفا منتظر باشید</string>
     <string name="introducer_code">کد معرف</string>
@@ -9,7 +9,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="providers_list">لیست تامین کننده ها</string>
-    <string name="orders_list">لیست سفارش ها</string>
+    <string name="orders_list">لیست سفارش‌ها</string>
     <string name="name">نام</string>
     <string name="family">نام‌خانوادگی</string>
     <string name="shopname">نام مغازه</string>
@@ -24,4 +24,11 @@
     <string name="item_unit">واحد محصول</string>
     <string name="item_price">قیمت یک واحد محصول(تومان)</string>
     <string name="item_description">توضیح محصول</string>
+    <string name="suppliers">تامین‌کننده‌ها</string>
+    <string name="add_supplier">افزودن تامین‌کننده</string>
+    <string name="orders">سفارشات</string>
+    <string name="add_order">افزودن سفارش</string>
+    <string name="items">اجناس</string>
+    <string name="items_list">لیست اجناس</string>
+    <string name="introduce_desc">برای افزودن تامین‌کننده جدید لطفا کد معرفی او را وارد نمایید</string>
 </resources>

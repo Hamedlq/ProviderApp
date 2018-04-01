@@ -7,6 +7,7 @@ package com.alireza.providerapp.Models;
 public class ResponseModel<T> {
 
     T Message;
+    private String Error;
 
     public T getMessage() {
         return Message;
@@ -14,5 +15,13 @@ public class ResponseModel<T> {
 
     public void setMessage(T message) {
         Message = message;
+    }
+
+    public String getError() {
+        return Error;
+    }
+
+    public void setError(String error) {
+        Error = error;
     }
 }

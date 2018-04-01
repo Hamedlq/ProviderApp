@@ -19,5 +19,5 @@ import retrofit2.http.POST;
 public interface ItemsApiInterface {
     @FormUrlEncoded
     @POST("item/useritems")
-    Call<List<SupplierItemsResponse>> getItemsFromServer(@Field("token") String authtoken);
+    Call<List<UserModel>> getItemsFromServer(@Field("token") String authtoken);
 }

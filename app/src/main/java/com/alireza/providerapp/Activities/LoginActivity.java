@@ -44,10 +44,15 @@ public class LoginActivity extends AppCompatActivity {
             SharedPreferences prefs =
                     getSharedPreferences(Constants.GlobalConstants.MY_SHARED_PREFERENCES, MODE_PRIVATE);
             String token = prefs.getString(Constants.GlobalConstants.TOKEN, "null");
-
+            String name = prefs.getString(Constants.GlobalConstants.USER_NAME, "null");
             if (!token.equals("null")) {
-                finish();
-                goToMainActivity();
+                if (!name.equals("null")) {
+                    finish();
+                    goToMainActivity();
+                }else {
+                    finish();
+                    goToUserInfoForm();
+                }
             }
         } catch (Exception e) {
             SharedPreferences.Editor prefs =
@@ -65,12 +70,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ItemsActivity.class);
+        finish();
         startActivity(intent);
     }
 
     private void goToUserInfoForm() {
         Intent intent = new Intent(this, UserInfoFormActivity.class);
+        finish();
         startActivity(intent);
     }
 
@@ -92,24 +99,25 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
                 int code = response.code();
-
+                progressDialog.hide();
                 if (code == 200) {
                     LoginResponseModel i = response.body();
-                    Toast.makeText(LoginActivity.this, "successful", Toast.LENGTH_LONG).show();
-                    sendConfirmCode(phoneNumber);
+                    if(i.getError()!=null){
+                        Toast.makeText(LoginActivity.this, i.getError(), Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(LoginActivity.this, i.getMessage(), Toast.LENGTH_LONG).show();
+                        sendConfirmCode(phoneNumber);
+                    }
                 }
                 if (code == 500) {
                     Toast.makeText(LoginActivity.this, "duplicate number", Toast.LENGTH_LONG).show();
-                    progressDialog.hide();
                 }
-
             }
 
             @Override
             public void onFailure(Call<LoginResponseModel> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "failure message", Toast.LENGTH_SHORT).show();
                 progressDialog.hide();
-
             }
         });
 
@@ -119,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
     public void addCodeVerifyFragment(String phoneNumber) {
         CodeVerifyFragment codeVerifyFragment = new CodeVerifyFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.GlobalConstants.PHONE_NUMBER_TAG, phoneNumber);
+        bundle.putString(Constants.GlobalConstants.MOBILE_NUMBER_TAG, phoneNumber);
 
         codeVerifyFragment.setArguments(bundle);
 

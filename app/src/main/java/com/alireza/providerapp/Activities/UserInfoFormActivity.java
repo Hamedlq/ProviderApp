@@ -95,8 +95,8 @@ public class UserInfoFormActivity extends AppCompatActivity {
         UserApiInterface userInfoService =
                 retrofit.create(UserApiInterface.class);
 
-        SharedPreferences prefs = this.getSharedPreferences(
-                Constants.GlobalConstants.APP_DOMAIN, Context.MODE_PRIVATE);
+        final SharedPreferences prefs = this.getSharedPreferences(
+                Constants.GlobalConstants.MY_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String authToken = prefs.getString(Constants.GlobalConstants.TOKEN, "");
 
         final String name_st = name.getText().toString();
@@ -116,6 +116,8 @@ public class UserInfoFormActivity extends AppCompatActivity {
                 if (code == 200) {
                     ResponseModel<UserModel> i = response.body();
                     if(i.getMessage().name.contains(name_st)){
+                        prefs.edit().putString(Constants.GlobalConstants.USER_NAME, i.getMessage().name+" "+i.getMessage().family).apply();
+                        prefs.edit().putString(Constants.GlobalConstants.SHOP_NAME, i.getMessage().shopname).apply();
                         Toast.makeText(UserInfoFormActivity.this, R.string.success, Toast.LENGTH_LONG).show();
                         goToMainActivity();
                     }else {
@@ -162,7 +164,8 @@ public class UserInfoFormActivity extends AppCompatActivity {
     }
 
     private void goToMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ItemsActivity.class);
+        finish();
         startActivity(intent);
     }
 

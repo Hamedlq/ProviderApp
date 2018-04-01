@@ -27,7 +27,7 @@ public class CodeVerifyFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        phoneNumber = bundle.getString(Constants.GlobalConstants.PHONE_NUMBER_TAG);
+        phoneNumber = bundle.getString(Constants.GlobalConstants.MOBILE_NUMBER_TAG);
     }
 
     @Nullable

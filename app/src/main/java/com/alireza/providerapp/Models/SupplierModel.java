@@ -1,6 +1,7 @@
 package com.alireza.providerapp.Models;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by alireza on 3/31/18.
@@ -22,7 +23,7 @@ public class SupplierModel {
     String shoplat;
     String shoplng;
     int __v;
-//    SupplierModel suppliers;
+    public List<ItemModel> items;
 
 
     public String getRefercode() {

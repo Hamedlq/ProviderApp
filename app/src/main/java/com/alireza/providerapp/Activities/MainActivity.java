@@ -70,18 +70,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.providers_list) {
             Intent intent = new Intent(this,ProvidersListActivity.class );
             startActivity(intent);
-            // Handle the camera action
+        } else if (id == R.id.add_supplier) {
+            Intent intent = new Intent(this,OrdersListActivity.class );
+            startActivity(intent);
         } else if (id == R.id.orders_list) {
             Intent intent = new Intent(this,OrdersListActivity.class );
             startActivity(intent);
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
 

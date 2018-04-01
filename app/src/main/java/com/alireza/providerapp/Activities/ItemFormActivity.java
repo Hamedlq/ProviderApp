@@ -78,7 +78,7 @@ public class ItemFormActivity extends AppCompatActivity {
                 retrofit.create(ProviderApiInterface.class);
 
         SharedPreferences prefs = this.getSharedPreferences(
-                Constants.GlobalConstants.APP_DOMAIN, Context.MODE_PRIVATE);
+                Constants.GlobalConstants.MY_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String authToken = prefs.getString(Constants.GlobalConstants.TOKEN, "");
 
         final String item_name_st = item_name.getText().toString();

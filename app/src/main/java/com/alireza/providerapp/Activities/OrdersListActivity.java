@@ -1,11 +1,14 @@
 package com.alireza.providerapp.Activities;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.alireza.providerapp.Adapters.OrdersListAdapter;
@@ -31,7 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by alireza on 3/30/18.
  */
 
-public class OrdersListActivity extends AppCompatActivity {
+public class OrdersListActivity extends NavigationActivity {
     private RecyclerView ordersList;
     private List<ItemModel> orderModelList;
     private List<UserModel> userOrderModelList;
@@ -40,7 +43,12 @@ public class OrdersListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orders_list);
+        //setContentView(R.layout.activity_orders_list);
+
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ViewGroup parent = (ViewGroup)findViewById(R.id.main_container);
+        inflater.inflate(R.layout.activity_orders_list, parent);
+
         ordersList = findViewById(R.id.orders_list);
         orderModelList = new ArrayList<>();
         adapter = new OrdersListAdapter(orderModelList);

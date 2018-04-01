@@ -26,4 +26,9 @@ public interface UserApiInterface {
                                                         @Field("shopphone") String shopphone,
                                                         @Field("propertytype") String propertytype);
 
+    @FormUrlEncoded
+    @POST("user/addSupplier")
+    Call<ResponseModel<UserModel>> sendIntroduce_code(@Field("token") String authtoken,
+                                                        @Field("introducecode") String introducecode);
+
 }

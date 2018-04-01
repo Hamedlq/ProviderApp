@@ -16,10 +16,11 @@ public final class Constants {
     }
 
     public final class GlobalConstants{
-        public static final String PHONE_NUMBER_TAG = "PHONENUMBERTTAG";
-        public static final String MY_SHARED_PREFERENCES = "MYSHAREDPREFS";
+        public static final String MOBILE_NUMBER_TAG = "MOBILENUMBERTTAG";
+        public static final String MY_SHARED_PREFERENCES = "com.alireza.providerapp";
         public static final String TOKEN = "TOKEN";
-        public static final String APP_DOMAIN = "com.alireza.providerapp";
+        public static final String USER_NAME = "user_name_family";
+        public static final String SHOP_NAME = "user_shop_name";
     }
 
 }
