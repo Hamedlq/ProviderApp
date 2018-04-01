@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
-    android:layout_margin="10dp"
-card_view:cardPreventCornerOverlap="false"
-    android:elevation="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="10dp">
-
+    android:layout_margin="10dp"
+    android:elevation="5dp"
+    card_view:cardCornerRadius="10dp"
+    card_view:cardPreventCornerOverlap="false">
 
 
     <LinearLayout
@@ -19,100 +17,109 @@ card_view:cardPreventCornerOverlap="false"
         android:orientation="vertical">
 
 
-        <TextView
-            android:layout_margin="7dp"
-            android:layout_gravity="center"
+  <!--      <TextView
             android:id="@+id/store_name"
-            android:textStyle="bold"
-            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="store_name" />
-
+            android:layout_gravity="center"
+            android:layout_margin="7dp"
+            android:text="store_name"
+            android:textSize="16sp"
+            android:textStyle="bold" />-->
 
 
         <LinearLayout
-            android:layout_margin="7dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="7dp"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_person"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_margin="6dp"
-                android:id="@+id/name_textview"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_item_name" />
+
+            <TextView
+                android:id="@+id/item_name_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
                 android:text="نام و نام خانوادگی" />
 
         </LinearLayout>
 
 
-
         <LinearLayout
-            android:layout_margin="7dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="7dp"
             android:orientation="horizontal">
 
 
-
             <ImageView
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_notebook"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_notebook" />
 
 
             <TextView
-                android:layout_margin="6dp"
-                android:id="@+id/address_textview"
+                android:id="@+id/item_brand_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ایران تهران انقلاب کارگر جلال" />
+                android:layout_margin="6dp"
+                android:text="brand_name" />
 
 
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_margin="7dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="7dp"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_phone"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_description" />
 
 
             <TextView
-                android:layout_margin="6dp"
-                android:id="@+id/phone_textview"
+                android:id="@+id/item_description_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="021-88776655" />
+                android:layout_margin="6dp"
+                android:text="description" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:orientation="horizontal">
 
 
             <ImageView
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_cellphone"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_price" />
 
 
             <TextView
-                android:layout_margin="6dp"
-                android:id="@+id/cell_phone_textview"
+                android:id="@+id/item_price_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="09123456789" />
+                android:layout_margin="6dp"
+                android:text="ایران تهران انقلاب کارگر جلال" />
+
+
         </LinearLayout>
 
 

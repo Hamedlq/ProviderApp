@@ -15,14 +15,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.alireza.providerapp.Models.ItemModel;
 import com.alireza.providerapp.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private List<ItemModel> itemModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        itemModelList = new ArrayList<>();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
