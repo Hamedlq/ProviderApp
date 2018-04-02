@@ -41,7 +41,12 @@ public class CodeVerifyFragment extends Fragment {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int verificationCode = Integer.parseInt(codeVerifyEdittext.getText().toString());
+                int verificationCode =0;
+                try {
+                    verificationCode = Integer.parseInt(codeVerifyEdittext.getText().toString());
+                }
+                catch (NumberFormatException e ) {
+                }
                 ((LoginActivity) getActivity())
                         .sendConfirmSmsCode(phoneNumber, verificationCode);
             }

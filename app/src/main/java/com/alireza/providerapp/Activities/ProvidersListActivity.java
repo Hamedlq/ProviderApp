@@ -18,6 +18,7 @@ import com.alireza.providerapp.Interfaces.LoginApiInterface;
 import com.alireza.providerapp.Interfaces.ProviderApiInterface;
 import com.alireza.providerapp.Models.LoginResponseModel;
 import com.alireza.providerapp.Models.SupplierModel;
+import com.alireza.providerapp.Models.UserModel;
 import com.alireza.providerapp.R;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class ProvidersListActivity extends NavigationActivity {
         ViewGroup parent = (ViewGroup)findViewById(R.id.main_container);
         inflater.inflate(R.layout.activity_providers_list, parent);
 
+        setToolbarTitle(getString(R.string.suppliers));
         providersList = findViewById(R.id.providers_list);
 
         supplierModelList = new ArrayList<>();
@@ -73,17 +75,19 @@ public class ProvidersListActivity extends NavigationActivity {
         String token = prefs.getString(Constants.GlobalConstants.TOKEN,"null");
 
 
-        Call<List<SupplierModel>> call =
+        Call<List<UserModel>> call =
                 providerApiInterface.getSuppliersList(token);
 
 
-        call.enqueue(new Callback<List<SupplierModel>>() {
+        call.enqueue(new Callback<List<UserModel>>() {
             @Override
-            public void onResponse(Call<List<SupplierModel>> call, Response<List<SupplierModel>> response) {
+            public void onResponse(Call<List<UserModel>> call, Response<List<UserModel>> response) {
                 int code = response.code();
                 if (code == 200){
-                    Toast.makeText(ProvidersListActivity.this, "success", Toast.LENGTH_LONG).show();
-                    supplierModelList = response.body();
+                    List<UserModel> list=response.body();
+                    for (SupplierModel supplierModel : list.get(0).suppliers) {
+                        supplierModelList.add(supplierModel);
+                    }
 
                     adapter.notifyDataSetChanged();
 
@@ -99,7 +103,7 @@ public class ProvidersListActivity extends NavigationActivity {
             }
 
             @Override
-            public void onFailure(Call<List<SupplierModel>> call, Throwable t) {
+            public void onFailure(Call<List<UserModel>> call, Throwable t) {
                 Toast.makeText(ProvidersListActivity.this, "failure", Toast.LENGTH_LONG).show();
 
             }

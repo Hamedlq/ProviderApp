@@ -85,5 +85,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
         return false;
     }
 
+    public void setToolbarTitle(String title){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView titleView = (TextView) toolbar.findViewById(R.id.txtTitle);
+        titleView.setText(title);
+    }
+
 
 }

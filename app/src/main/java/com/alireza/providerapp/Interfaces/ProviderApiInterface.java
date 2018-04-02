@@ -21,7 +21,7 @@ public interface ProviderApiInterface {
 
     @FormUrlEncoded
     @POST("user/getsuppliers")
-    Call<List<SupplierModel>> getSuppliersList(@Field("token") String token);
+    Call<List<UserModel>> getSuppliersList(@Field("token") String token);
 
     @FormUrlEncoded
     @POST("order/userOrders")
@@ -35,5 +35,10 @@ public interface ProviderApiInterface {
                                            @Field("itemBrand") String brand,
                                            @Field("itemPrice") String price,
                                            @Field("itemDescription") String description);
+
+    @FormUrlEncoded
+    @POST("order/cancelOrder")
+    Call<ResponseModel<String>> cancelOrder(@Field("token") String authtoken,
+                                           @Field("item_id") String item_id);
 
 }

@@ -85,6 +85,11 @@ public class LoginActivity extends AppCompatActivity {
     public void sendUserPhoneNumberToServer(final String phoneNumber, int referCode) {
         progressDialog.show();
 
+        SharedPreferences.Editor prefs =
+                getSharedPreferences(Constants.GlobalConstants.MY_SHARED_PREFERENCES, MODE_PRIVATE).edit();
+        prefs.putString(Constants.GlobalConstants.MOBILE_NUMBER_TAG, phoneNumber);
+        prefs.apply();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(Constants.HTTP.BASE_URL)

@@ -31,4 +31,7 @@
     <string name="items">اجناس</string>
     <string name="items_list">لیست اجناس</string>
     <string name="introduce_desc">برای افزودن تامین‌کننده جدید لطفا کد معرفی او را وارد نمایید</string>
+    <string name="mobile_hint">شماره تلفن همراه(۰۹۱۲۳۴۵۶۷۸۹)</string>
+    <string name="order_it">سفارش کالا</string>
+    <string name="cancel_order">لغو سفارش</string>
 </resources>

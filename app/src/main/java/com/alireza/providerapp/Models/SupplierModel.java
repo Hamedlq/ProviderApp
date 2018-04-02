@@ -130,6 +130,7 @@ public class SupplierModel {
         this.shoplng = shoplng;
     }
 
+
 //    public SupplierModel getSuppliers() {
 //        return suppliers;
 //    }

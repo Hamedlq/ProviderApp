@@ -1,13 +1,14 @@
 package com.alireza.providerapp.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -16,8 +17,7 @@ import com.alireza.providerapp.Helpers.Constants;
 import com.alireza.providerapp.Interfaces.ItemsApiInterface;
 import com.alireza.providerapp.Models.ItemModel;
 import com.alireza.providerapp.Models.ResponseModel;
-import com.alireza.providerapp.Models.Supplier;
-import com.alireza.providerapp.Models.SupplierItemsResponse;
+import com.alireza.providerapp.Models.SupplierItemsModel;
 import com.alireza.providerapp.Models.SupplierModel;
 import com.alireza.providerapp.Models.UserModel;
 import com.alireza.providerapp.R;
@@ -38,8 +38,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ItemsActivity extends NavigationActivity {
 
     private RecyclerView itemsListRecyclerview;
-    private List<ItemModel> itemModelList;
+    private List<SupplierItemsModel> itemModelList;
     private ItemsListAdapter adapter;
+    private OrderTouchListener orderTouchListener;
+    private String authToken;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,9 +50,9 @@ public class ItemsActivity extends NavigationActivity {
 
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ViewGroup parent = (ViewGroup)findViewById(R.id.main_container);
+        ViewGroup parent = (ViewGroup) findViewById(R.id.main_container);
         inflater.inflate(R.layout.activity_items, parent);
-
+        setToolbarTitle(getString(R.string.items_list));
 
         itemsListRecyclerview = findViewById(R.id.items_list);
 
@@ -61,11 +63,57 @@ public class ItemsActivity extends NavigationActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         itemsListRecyclerview.setLayoutManager(mLayoutManager);
 //        providersList.setItemAnimator(new DefaultItemAnimator());
-
-
         itemsListRecyclerview.setAdapter(adapter);
-
         getItemsFromerver();
+        orderTouchListener = new OrderTouchListener() {
+            @Override
+            public void onBtnClick(View view, int position) {
+                SupplierItemsModel model = (SupplierItemsModel) itemModelList.get(position);
+                orderTheItem(authToken, model);
+            }
+        };
+    }
+
+    private void orderTheItem(String authToken, SupplierItemsModel model) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(Constants.HTTP.BASE_URL)
+                .build();
+        ItemsApiInterface itemsApiInterface =
+                retrofit.create(ItemsApiInterface.class);
+
+        Call<ResponseModel<String>> call =
+                itemsApiInterface.orderItem(authToken, model.item_id);
+
+        call.enqueue(new Callback<ResponseModel<String>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<String>> call, Response<ResponseModel<String>> response) {
+                int code = response.code();
+                if (code == 200) {
+                    ResponseModel<String> i = response.body();
+
+                    if(i.getError()!=null){
+                        Toast.makeText(ItemsActivity.this, i.getError(), Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(ItemsActivity.this, i.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        gotoOrderListActivity();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<String>> call, Throwable t) {
+                Toast.makeText(ItemsActivity.this, "failure", Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+    private void gotoOrderListActivity() {
+        Intent intent = new Intent(this, OrdersListActivity.class);
+        finish();
+        startActivity(intent);
+
     }
 
     private void getItemsFromerver() {
@@ -79,7 +127,7 @@ public class ItemsActivity extends NavigationActivity {
 
         SharedPreferences prefs = this.getSharedPreferences(
                 Constants.GlobalConstants.MY_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        String authToken = prefs.getString(Constants.GlobalConstants.TOKEN, "");
+        authToken = prefs.getString(Constants.GlobalConstants.TOKEN, "");
 
         Call<List<UserModel>> call =
                 itemsApiInterface.getItemsFromServer(authToken);
@@ -89,8 +137,19 @@ public class ItemsActivity extends NavigationActivity {
 
                 List<UserModel> model = response.body();
                 for (SupplierModel supplierModel : model.get(0).suppliers) {
-                    for (ItemModel item: supplierModel.items){
-                        itemModelList.add(item);
+                    for (ItemModel item : supplierModel.items) {
+                        SupplierItemsModel sitem=new SupplierItemsModel();
+                        sitem.name=supplierModel.getName();
+                        sitem.family=supplierModel.getFamily();
+                        sitem.mobile=supplierModel.getMobile();
+                        sitem.shopname=supplierModel.getShopname();
+                        sitem.shopphone=supplierModel.getShopphone();
+                        sitem.item_id=item.getItem_id();
+                        sitem.itemBrand=item.getItemBrand();
+                        sitem.itemName=item.getItemName();
+                        sitem.itemPrice=item.getItemPrice();
+                        sitem.itemDescription=item.getItemDescription();
+                        itemModelList.add(sitem);
                     }
                 }
 
@@ -101,13 +160,10 @@ public class ItemsActivity extends NavigationActivity {
                 adapter.notifyDataSetChanged();
 
 
-                adapter = new ItemsListAdapter(itemModelList);
+                adapter = new ItemsListAdapter(itemModelList,orderTouchListener);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 itemsListRecyclerview.setLayoutManager(mLayoutManager);
                 itemsListRecyclerview.setAdapter(adapter);
-
-                Toast.makeText(ItemsActivity.this, R.string.success, Toast.LENGTH_LONG).show();
-
             }
 
             @Override
@@ -117,42 +173,9 @@ public class ItemsActivity extends NavigationActivity {
             }
         });
 
+    }
 
-
-        /*Call<ResponseModel<List<ItemModel>>> call =
-                itemsApiInterface.getItemsFromServer(authToken);
-
-        call.enqueue(new Callback<ResponseModel<List<ItemModel>>>() {
-            @Override
-            public void onResponse(Call<ResponseModel<List<ItemModel>>> call, Response<ResponseModel<List<ItemModel>>> response) {
-                Toast.makeText(ItemsActivity.this, "success", Toast.LENGTH_LONG).show();
-                int code = response.code();
-                if (code == 200) {
-                    ResponseModel<List<ItemModel>> i = response.body();
-                    itemModelList = i.getMessage();
-
-                    adapter.notifyDataSetChanged();
-
-
-                    adapter = new ItemsListAdapter(itemModelList);
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                    itemsListRecyclerview.setLayoutManager(mLayoutManager);
-                    itemsListRecyclerview.setAdapter(adapter);
-
-                    Toast.makeText(ItemsActivity.this, R.string.success, Toast.LENGTH_LONG).show();
-
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseModel<List<ItemModel>>> call, Throwable t) {
-                Toast.makeText(ItemsActivity.this, "failure", Toast.LENGTH_LONG).show();
-
-            }
-        });*/
-
-
+    public interface OrderTouchListener {
+        public void onBtnClick(View view, int position);
     }
 }

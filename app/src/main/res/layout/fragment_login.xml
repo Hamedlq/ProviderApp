@@ -14,19 +14,20 @@
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
 
             <EditText
-                android:hint="09123456789"
+                android:hint="@string/mobile_hint"
                 android:id="@+id/user_phone_edittext"
                 android:inputType="phone"
+                android:layout_marginBottom="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
                 android:hint="@string/introducer_code"
                 android:inputType="number"
+                android:layout_marginBottom="20dp"
                 android:id="@+id/refer_code_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -36,7 +37,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/continue_button" />
-
 
         </LinearLayout>
 
