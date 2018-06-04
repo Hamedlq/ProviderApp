@@ -68,18 +68,18 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
 
         if (id == R.id.providers_list) {
             Intent intent = new Intent(this,ProvidersListActivity.class );
-            finish();
+            //finish();
             startActivity(intent);
         } else if (id == R.id.add_supplier) {
             Intent intent = new Intent(this,SupplierAddActivity.class );
             startActivity(intent);
         } else if (id == R.id.items_list) {
             Intent intent = new Intent(this,ItemsActivity.class );
-            finish();
+            //finish();
             startActivity(intent);
         } else if (id == R.id.orders_list) {
             Intent intent = new Intent(this,OrdersListActivity.class );
-            finish();
+            //finish();
             startActivity(intent);
         }
         return false;

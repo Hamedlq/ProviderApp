@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
                 if (code == 500) {
-                    Toast.makeText(LoginActivity.this, "duplicate number", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "شماره تکراری است", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -160,14 +160,13 @@ public class LoginActivity extends AppCompatActivity {
                 int code = response.code();
                 progressDialog.hide();
                 if (code == 200) {
-                    Toast.makeText(LoginActivity.this, "successful", Toast.LENGTH_LONG).show();
                     addCodeVerifyFragment(phoneNumber);
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponseModel> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "خطا", Toast.LENGTH_LONG).show();
                 progressDialog.hide();
 
             }
@@ -191,12 +190,11 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<ReceiveTokenModel>() {
             @Override
             public void onResponse(Call<ReceiveTokenModel> call, Response<ReceiveTokenModel> response) {
-                Toast.makeText(LoginActivity.this, "successful", Toast.LENGTH_LONG).show();
                 progressDialog.hide();
                 int code = response.code();
 
                 if (code == 200) {
-                    Toast.makeText(LoginActivity.this, R.string.success, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LoginActivity.this, R.string.success, Toast.LENGTH_LONG).show();
                     ReceiveTokenModel model = response.body();
                     String token = model.getToken();
 
@@ -215,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ReceiveTokenModel> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "خطا", Toast.LENGTH_LONG).show();
                 progressDialog.hide();
 
 
